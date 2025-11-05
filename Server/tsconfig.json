@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    /* File Layout */
+    "rootDir": "./src", // All TS files go in src
+    "outDir": "./dist", // Compiled JS will go in dist
+
+    /* Environment Settings */
+    "module": "nodenext", // For Node.js (can use "nodenext" if you want ESM)
+    "target": "es2020", // Modern Node supports ES2020+
+    "lib": ["esnext"],
+    "types": ["node"], // Add Node.js type defs
+    "esModuleInterop": true, // Allow import express from "express"
+    "resolveJsonModule": true, // Allow importing JSON files
+
+    /* Type Checking */
+    "strict": true, // Enable strict type-checking
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+
+    /* Debugging */
+    "sourceMap": true, // Helpful for debugging in dist
+    "declaration": true, // Generate .d.ts files
+
+    /* Module Resolution */
+    "moduleResolution": "NodeNext",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
