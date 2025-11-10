@@ -232,7 +232,7 @@ export default function DashboardPage() {
                 className="inline-flex items-center space-x-2 bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition"
               >
                 <Plus className="w-5 h-5" />
-                <span>Add Your First Trip</span>
+                <span>Add Your First Trip Here</span>
               </Link>
             )}
           </div>
