@@ -5,6 +5,8 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import Footer from '@/components/Footer';
 
+import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -23,7 +25,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <div className="flex flex-col min-h-screen">
+          <AnimatedBackground />
+          <div className="flex flex-col min-h-screen relative z-10">
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
