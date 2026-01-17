@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import tripRoutes from './routes/tripRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ connectDB();
 //Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/trip', tripRoutes);
+app.use('/api/v1/ai', aiRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

@@ -1,5 +1,7 @@
 'use client';
 
+import axios from 'axios';
+
 import { useState } from 'react';
 import {
   MapPin,
@@ -20,6 +22,9 @@ interface Place {
     lat: number;
   };
   xid?: string;
+  description?: string;
+  rating?: number;
+  type?: string;
 }
 
 export default function NearbyPlaces() {
@@ -56,59 +61,42 @@ export default function NearbyPlaces() {
 
   const fetchNearbyPlaces = async (lat: number, lng: number) => {
     try {
-      const radius = 5000;
-      const apiKey = '5ae2e3f221c38a28845f05b6d133e4b0c4e0c8e8c0e0c8e8c0e0c8e8';
-
-      const response = await fetch(
-        `https://api.opentripmap.com/0.1/en/places/radius?radius=${radius}&lon=${lng}&lat=${lat}&kinds=interesting_places,tourist_facilities,cultural,architecture,historic,museums,other_hotels,foods&format=json&limit=10&apikey=${apiKey}`,
+      // Use our new AI backend instead of OpenTripMap
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/ai/suggestions`,
+        {
+          latitude: lat,
+          longitude: lng,
+        },
+        {
+          withCredentials: true,
+        },
       );
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch places');
-      }
+      if (response.data && response.data.suggestions) {
+        const aiPlaces = response.data.suggestions.map((p: any) => ({
+          name: p.name,
+          kinds: p.type, // Map AI 'type' to 'kinds' for compatibility
+          description: p.description,
+          rating: p.rating,
+          dist: undefined, // AI doesn't give distance yet
+          point: undefined, // AI doesn't give coords yet, will fallback to search
+        }));
 
-      const data = await response.json();
-
-      if (data && data.length > 0) {
-        const placesWithDetails = await Promise.all(
-          data.slice(0, 5).map(async (place: Place) => {
-            try {
-              const detailResponse = await fetch(
-                `https://api.opentripmap.com/0.1/en/places/xid/${place.xid}?apikey=${apiKey}`,
-              );
-              const details = await detailResponse.json();
-              return {
-                ...place,
-                name: details.name || place.name || 'Unknown Place',
-                kinds: details.kinds || place.kinds,
-                dist: place.dist,
-              };
-            } catch (error) {
-              return place;
-            }
-          }),
-        );
-
-        setPlaces(
-          placesWithDetails.filter((p) => p.name && p.name !== 'Unknown Place'),
-        );
-        toast.success(`Found ${placesWithDetails.length} nearby attractions!`);
+        setPlaces(aiPlaces);
+        toast.success(`AI found ${aiPlaces.length} gems nearby!`);
       } else {
-        setPlaces([
-          { name: 'City Center', kinds: 'tourist_attraction', dist: 500 },
-          { name: 'Local Museum', kinds: 'museums', dist: 1200 },
-          { name: 'Historic District', kinds: 'historic', dist: 2000 },
-        ]);
-        toast.success('Found nearby attractions!');
+        throw new Error('No suggestions returned');
       }
     } catch (error) {
       console.error('Error fetching places:', error);
+      // Fallback only if AI fails completely
       setPlaces([
         { name: 'City Center', kinds: 'tourist_attraction', dist: 500 },
         { name: 'Local Museum', kinds: 'museums', dist: 1200 },
         { name: 'Historic District', kinds: 'historic', dist: 2000 },
       ]);
-      toast.success('Showing nearby attractions');
+      toast.error('Could not fetch AI suggestions, showing defaults.');
     } finally {
       setLoading(false);
     }
@@ -122,6 +110,10 @@ export default function NearbyPlaces() {
 
   const formatKinds = (kinds?: string) => {
     if (!kinds) return 'Attraction';
+    // If it's a simple string (AI type), just capitalize it
+    if (!kinds.includes('_') && !kinds.includes(',')) {
+      return kinds.charAt(0).toUpperCase() + kinds.slice(1);
+    }
     const kindsList = kinds.split(',');
     const mainKind = kindsList[0].replace(/_/g, ' ');
     return mainKind.charAt(0).toUpperCase() + mainKind.slice(1);

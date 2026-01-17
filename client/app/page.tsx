@@ -5,6 +5,9 @@ import { MapPin, Camera, Globe, Compass, Star, ArrowRight } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { motion } from "framer-motion";
 import Navbar from '@/components/Navbar';
+import axios from 'axios';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function Home() {
   const containerVariants = {
@@ -26,6 +29,56 @@ export default function Home() {
         duration: 0.5,
       },
     },
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [locationName, setLocationName] = useState("");
+  const [showResults, setShowResults] = useState(false);
+
+  const handleFindNearbyPlaces = () => {
+    setIsLoading(true);
+    if (!navigator.geolocation) {
+      toast.error("Geolocation is not supported by your browser");
+      setIsLoading(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          
+          // Send coordinates directly to backend (which handles reverse geocoding safely)
+          const aiRes = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/ai/suggestions`, {
+            latitude,
+            longitude
+          }, {
+             withCredentials: true
+          });
+
+          if (aiRes.data && aiRes.data.suggestions) {
+             setSuggestions(aiRes.data.suggestions);
+             if (aiRes.data.location) {
+               setLocationName(aiRes.data.location);
+               toast.success(`Found gems in ${aiRes.data.location}!`);
+             }
+             setShowResults(true);
+          }
+
+        } catch (error) {
+          console.error(error);
+          toast.error("Failed to get suggestions");
+        } finally {
+          setIsLoading(false);
+        }
+      },
+      (error) => {
+        console.error(error);
+        toast.error("Unable to retrieve your location");
+        setIsLoading(false);
+      }
+    );
   };
 
   return (
@@ -125,22 +178,65 @@ export default function Home() {
             </p>
           </GlassCard>
 
-          <GlassCard className="p-8 group sm:col-span-2 lg:col-span-3 lg:w-2/3 lg:mx-auto">
+          <GlassCard className="p-8 group sm:col-span-2 lg:col-span-3 lg:w-2/3 lg:mx-auto cursor-pointer hover:bg-white/5 transition-all" onClick={handleFindNearbyPlaces}>
              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
-                <div className="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:scale-110 transition-transform duration-300">
-                  <Compass className="w-8 h-8 text-emerald-400" />
+                <div className={`bg-gradient-to-br from-emerald-500/20 to-teal-500/20 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:scale-110 transition-transform duration-300 ${isLoading ? 'animate-pulse' : ''}`}>
+                  <Compass className={`w-8 h-8 text-emerald-400 ${isLoading ? 'animate-spin' : ''}`} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors">
-                    AI Discovery (Coming Soon)
+                    {isLoading ? "Scanning Surroundings..." : "Find Nearby Hidden Gems"}
                   </h3>
                   <p className="text-slate-400 leading-relaxed">
-                    Let our intelligent assistant suggest nearby hidden gems based on your preferences and past trips.
+                    {isLoading 
+                      ? "Consulting our AI travel agent to find the perfect spots for you..." 
+                      : "Tap here to let our AI discover top-rated tourist attractions near your current location."
+                    }
                   </p>
                 </div>
              </div>
           </GlassCard>
         </motion.div>
+
+        {/* AI Results Section */}
+        {showResults && (
+           <motion.div
+             initial={{ opacity: 0, y: 40 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.8 }}
+             className="mt-32"
+           >
+              <div className="text-center mb-16">
+                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                    Top Picks in <span className="text-emerald-400">{locationName}</span>
+                 </h2>
+                 <p className="text-slate-400">Curated just for you by AI</p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                 {suggestions.map((place, index) => (
+                    <GlassCard key={index} className="p-6 flex flex-col h-full border-t-4 border-t-emerald-500/50">
+                       <div className="flex justify-between items-start mb-4">
+                          <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                             {place.type}
+                          </span>
+                          <div className="flex items-center gap-1 text-yellow-400 font-bold">
+                             <Star className="w-4 h-4 fill-current" />
+                             {place.rating}
+                          </div>
+                       </div>
+                       <h3 className="text-xl font-bold text-white mb-2">{place.name}</h3>
+                       <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                          {place.description}
+                       </p>
+                       <button className="w-full py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white text-sm font-medium transition-colors border border-white/10">
+                          View Details
+                       </button>
+                    </GlassCard>
+                 ))}
+              </div>
+           </motion.div>
+        )}
 
         {/* CTA Section */}
         <div className="mt-32 relative">
