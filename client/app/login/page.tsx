@@ -33,25 +33,32 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-md w-full"
       >
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 mb-6 group">
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 mb-6 group"
+          >
             <div className="relative">
-                <div className="absolute inset-0 bg-cyan-500 blur-lg opacity-50 group-hover:opacity-100 transition duration-500" />
-                <Globe className="relative w-10 h-10 text-cyan-400 group-hover:rotate-180 transition duration-700 ease-in-out" />
+              <div className="absolute inset-0 bg-cyan-500 blur-lg opacity-50 group-hover:opacity-100 transition duration-500" />
+              <Globe className="relative w-10 h-10 text-cyan-400 group-hover:rotate-180 transition duration-700 ease-in-out" />
             </div>
-            <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">TravelLog</span>
+            <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+              TravelLog
+            </span>
           </Link>
           <h2 className="text-3xl font-bold text-white">Welcome back</h2>
-          <p className="text-slate-400 mt-2">Sign in to continue your journey</p>
+          <p className="text-slate-400 mt-2">
+            Sign in to continue your journey
+          </p>
         </div>
 
-        <GlassCard className="p-8 border-t border-white/10 backdrop-blur-xl bg-black/40">
+        <GlassCard className="border-t border-white/10 backdrop-blur-xl bg-black/40">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-500/20 border border-red-500/30 text-red-200 p-3 rounded-lg text-sm backdrop-blur-sm">
