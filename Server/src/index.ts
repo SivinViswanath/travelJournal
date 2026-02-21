@@ -28,10 +28,21 @@ app.use('/api/', limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://travel-journal-gold-theta.vercel.app',
+];
+
 app.use(
   cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS blocked'));
+      }
+    },
     credentials: true,
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
   }),
 );
 
