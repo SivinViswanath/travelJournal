@@ -44,7 +44,7 @@ app.use('/api/v1/trip', tripRoutes);
 app.use('/api/v1/ai', aiRoutes);
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
 

@@ -64,7 +64,7 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export const logoutUser = (req: Request, res: Response) => {
+export const logoutUser = (_req: Request, res: Response) => {
   res.clearCookie('jwt');
   res.status(200).json({ message: 'Logout successful' });
 };

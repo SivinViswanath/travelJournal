@@ -9,8 +9,8 @@ export const protect = (
   req: AuthRequest,
   res: Response,
   next: NextFunction,
-) => {
-  const token = req.cookies.jwt;
+): void => {
+  const token = req?.cookies.jwt;
 
   if (!token) {
     res.status(401);
@@ -21,6 +21,6 @@ export const protect = (
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ error: 'Not authorized, token failed' });
+    res.status(401).json({ error: 'Not authorized, token failed' });
   }
 };
