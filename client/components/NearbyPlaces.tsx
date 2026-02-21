@@ -177,6 +177,8 @@ export default function NearbyPlaces() {
                 <button
                   key={index}
                   onClick={() => {
+                    if (typeof window === 'undefined') return;
+
                     if (location && place.point) {
                       window.open(
                         `https://www.google.com/maps/dir/?api=1&origin=${location.lat},${location.lng}&destination=${place.point.lat},${place.point.lon}`,
@@ -184,9 +186,7 @@ export default function NearbyPlaces() {
                       );
                     } else if (location) {
                       window.open(
-                        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                          place.name,
-                        )}`,
+                        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}`,
                         '_blank',
                       );
                     }
