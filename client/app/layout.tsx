@@ -10,7 +10,7 @@ import { AnimatedBackground } from '@/components/ui/AnimatedBackground';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'TravelLog - Your Travel Memories',
+  title: 'GlobNotes - Your Travel Memories',
   description:
     'Document your travel adventures, save memories with photos, and discover amazing places',
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',

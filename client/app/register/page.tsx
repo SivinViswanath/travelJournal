@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
-import { Globe, Mail, Lock, User } from 'lucide-react';
+import { BookOpen, Mail, Lock, User } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -34,19 +35,29 @@ export default function RegisterPage() {
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-md w-full"
       >
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 mb-6 group">
-            <div className="relative">
-                <div className="absolute inset-0 bg-cyan-500 blur-lg opacity-50 group-hover:opacity-100 transition duration-500" />
-                <Globe className="relative w-10 h-10 text-cyan-400 group-hover:rotate-180 transition duration-700 ease-in-out" />
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 mb-6 group"
+          >
+            <div className="relative w-12 h-12">
+              <Image
+                src="/images/logo.png"
+                alt="GlobNotes Logo"
+                width={48}
+                height={48}
+                className="relative object-contain group-hover:scale-110 transition duration-700 ease-in-out"
+              />
             </div>
-            <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">TravelLog</span>
+            <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+              GlobNotes
+            </span>
           </Link>
           <h2 className="text-3xl font-bold text-white">Create account</h2>
           <p className="text-slate-400 mt-2">Start documenting your travels</p>

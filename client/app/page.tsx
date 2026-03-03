@@ -1,16 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  MapPin,
-  Camera,
-  Globe as GlobeIcon,
-  Compass,
-  Star,
-  ArrowRight,
-} from 'lucide-react';
+import { MapPin, Camera, Compass, Star, ArrowRight } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import axios from 'axios';
 import { useState } from 'react';
@@ -108,12 +102,14 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-medium mb-6 backdrop-blur-sm mx-auto lg:mx-0">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                </span>
-                Next Gen Travel Journal
+              <div className="relative inline-block mb-8">
+                <Image
+                  src="/images/logo.png"
+                  alt="GlobNotes Logo"
+                  width={80}
+                  height={80}
+                  className="relative object-contain"
+                />
               </div>
 
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">

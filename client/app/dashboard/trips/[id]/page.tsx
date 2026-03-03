@@ -14,11 +14,12 @@ import {
   MapPin,
   Calendar,
   Edit,
-  Globe,
+  BookOpen,
   Image as ImageIcon,
   X,
   Star,
 } from 'lucide-react';
+import Image from 'next/image';
 import { format } from 'date-fns';
 
 export default function TripDetailPage() {
@@ -138,9 +139,15 @@ export default function TripDetailPage() {
       <nav className="glass-dark sticky top-0 z-50 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center space-x-2">
-            <Globe className="w-6 h-6 sm:w-8 sm:h-8 text-primary-400" />
+            <Image
+              src="/images/logo.png"
+              alt="GlobNotes Logo"
+              width={32}
+              height={32}
+              className="object-contain"
+            />
             <span className="text-xl sm:text-2xl font-bold text-white">
-              TravelLog
+              GlobNotes
             </span>
           </div>
         </div>

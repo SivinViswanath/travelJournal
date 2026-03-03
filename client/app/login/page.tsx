@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
-import { Globe, Mail, Lock } from 'lucide-react';
+import { BookOpen, Mail, Lock } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -44,12 +45,17 @@ export default function LoginPage() {
             href="/"
             className="inline-flex items-center space-x-2 mb-6 group"
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-cyan-500 blur-lg opacity-50 group-hover:opacity-100 transition duration-500" />
-              <Globe className="relative w-10 h-10 text-cyan-400 group-hover:rotate-180 transition duration-700 ease-in-out" />
+            <div className="relative w-12 h-12">
+              <Image
+                src="/images/logo.png"
+                alt="GlobNotes Logo"
+                width={48}
+                height={48}
+                className="relative object-contain group-hover:scale-110 transition duration-700 ease-in-out"
+              />
             </div>
             <span className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
-              TravelLog
+              GlobNotes
             </span>
           </Link>
           <h2 className="text-3xl font-bold text-white">Welcome back</h2>

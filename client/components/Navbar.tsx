@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import { Globe, LogOut, Menu, X, User } from 'lucide-react';
+import { LogOut, Menu, X, User, BookOpen } from 'lucide-react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
@@ -21,12 +22,17 @@ export default function Navbar() {
             href={user ? '/' : '/'}
             className="flex items-center space-x-2 group relative z-50"
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-cyan-500 blur-lg opacity-50 group-hover:opacity-100 transition duration-500" />
-              <Globe className="relative w-8 h-8 text-cyan-400 group-hover:rotate-180 transition duration-700 ease-in-out" />
+            <div className="relative w-10 h-10">
+              <Image
+                src="/images/logo.png"
+                alt="GlobNotes Logo"
+                width={40}
+                height={40}
+                className="relative object-contain group-hover:scale-110 transition duration-700 ease-in-out"
+              />
             </div>
             <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
-              TravelLog
+              GlobNotes
             </span>
           </Link>
 

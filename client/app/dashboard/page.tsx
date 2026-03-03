@@ -158,7 +158,7 @@ export default function DashboardPage() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
             <h1 className="text-3xl sm:text-4xl font-bold text-white">
-              My Travel Journal
+              My GlobNotes
             </h1>
             <Link
               href="/dashboard/trips/new"
@@ -227,12 +227,12 @@ export default function DashboardPage() {
                 {/* Trips List */}
                 <div className="space-y-4">
                   {monthTrips.map((trip) => (
-                    <motion.div 
-                        key={trip._id} 
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="relative group"
+                    <motion.div
+                      key={trip._id}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      className="relative group"
                     >
                       {/* Delete Button (Mobile - Top Right) */}
                       <button
@@ -242,14 +242,17 @@ export default function DashboardPage() {
                         }}
                         className="sm:hidden absolute top-2 right-2 z-20 bg-black/60 backdrop-blur-md text-white p-2 rounded-full hover:bg-red-500 transition shadow-lg"
                       >
-                       <LogOut className="w-4 h-4" />
+                        <LogOut className="w-4 h-4" />
                       </button>
 
                       <Link
                         href={`/dashboard/trips/${trip._id}`}
                         className="block"
                       >
-                        <GlassCard className="p-0 hover:border-cyan-500/30 transition-all duration-300 group-hover:bg-white/10" hoverEffect={false}>
+                        <GlassCard
+                          className="p-0 hover:border-cyan-500/30 transition-all duration-300 group-hover:bg-white/10"
+                          hoverEffect={false}
+                        >
                           <div className="flex flex-col sm:flex-row h-full sm:h-40">
                             {/* Poster Image */}
                             <div className="w-full sm:w-48 h-48 sm:h-full flex-shrink-0 relative overflow-hidden">
@@ -268,47 +271,55 @@ export default function DashboardPage() {
                                 </div>
                               )}
                               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/60" />
-                              
+
                               {/* Date Overlay (Mobile) */}
-                               <div className="absolute bottom-3 left-3 sm:hidden text-white font-bold drop-shadow-md">
-                                  {format(new Date(trip.startDate), 'MMM d, yyyy')}
-                               </div>
+                              <div className="absolute bottom-3 left-3 sm:hidden text-white font-bold drop-shadow-md">
+                                {format(
+                                  new Date(trip.startDate),
+                                  'MMM d, yyyy',
+                                )}
+                              </div>
                             </div>
 
                             {/* Content */}
                             <div className="flex-1 p-5 flex flex-col justify-between relative">
                               <div className="flex justify-between items-start">
                                 <div>
-                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
+                                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
                                     {trip.title}
-                                    </h3>
-                                    <div className="flex items-center text-slate-400 text-sm mb-3">
+                                  </h3>
+                                  <div className="flex items-center text-slate-400 text-sm mb-3">
                                     <MapPin className="w-4 h-4 mr-1 text-cyan-500" />
-                                    <span>
-                                        {trip.destination}
+                                    <span>{trip.destination}</span>
+                                    <span className="mx-2 text-slate-600">
+                                      •
                                     </span>
-                                    <span className="mx-2 text-slate-600">•</span>
                                     {/* Date (Desktop) */}
-                                    <span className="hidden sm:inline text-slate-500">{format(new Date(trip.startDate), 'MMMM d, yyyy')}</span>
-                                    </div>
-                                    <p className="text-slate-400 text-sm line-clamp-2 sm:line-clamp-2 max-w-xl">
-                                        {trip.description}
-                                    </p>
+                                    <span className="hidden sm:inline text-slate-500">
+                                      {format(
+                                        new Date(trip.startDate),
+                                        'MMMM d, yyyy',
+                                      )}
+                                    </span>
+                                  </div>
+                                  <p className="text-slate-400 text-sm line-clamp-2 sm:line-clamp-2 max-w-xl">
+                                    {trip.description}
+                                  </p>
                                 </div>
 
-                                 {/* Delete Button (Desktop) */}
-                                 <div className="hidden sm:flex items-center pt-1 pr-1">
-                                    <button
-                                        onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation(); // Stop link navigation
-                                        openDeleteModal(trip._id, trip.title);
-                                        }}
-                                        className="text-slate-500 hover:text-red-400 p-2 hover:bg-white/5 rounded-full transition"
-                                        title="Delete Trip"
-                                    >
-                                        <LogOut className="w-5 h-5" />
-                                    </button>
+                                {/* Delete Button (Desktop) */}
+                                <div className="hidden sm:flex items-center pt-1 pr-1">
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation(); // Stop link navigation
+                                      openDeleteModal(trip._id, trip.title);
+                                    }}
+                                    className="text-slate-500 hover:text-red-400 p-2 hover:bg-white/5 rounded-full transition"
+                                    title="Delete Trip"
+                                  >
+                                    <LogOut className="w-5 h-5" />
+                                  </button>
                                 </div>
                               </div>
 
@@ -318,7 +329,7 @@ export default function DashboardPage() {
                                   {renderStars(trip.rating)}
                                 </div>
                                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">
-                                    View Details
+                                  View Details
                                 </div>
                               </div>
                             </div>

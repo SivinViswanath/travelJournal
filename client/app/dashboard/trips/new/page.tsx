@@ -7,7 +7,8 @@ import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import api from '@/lib/api';
 import ImageUpload from '@/components/ImageUpload';
-import { ArrowLeft, Globe, Image as ImageIcon, Star } from 'lucide-react';
+import { ArrowLeft, BookOpen, Image as ImageIcon, Star } from 'lucide-react';
+import Image from 'next/image';
 
 export default function NewTripPage() {
   const { user } = useAuth();
@@ -81,9 +82,15 @@ export default function NewTripPage() {
       <nav className="glass-dark sticky top-0 z-50 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center space-x-2">
-            <Globe className="w-6 h-6 sm:w-8 sm:h-8 text-primary-400" />
+            <Image
+              src="/images/logo.png"
+              alt="GlobNotes Logo"
+              width={32}
+              height={32}
+              className="object-contain"
+            />
             <span className="text-xl sm:text-2xl font-bold text-white">
-              TravelLog
+              GlobNotes
             </span>
           </div>
         </div>

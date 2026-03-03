@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Globe, Heart, Github, Twitter, Mail } from 'lucide-react';
+import Image from 'next/image';
+import { Heart, Github, Twitter, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -12,8 +13,14 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <Globe className="w-6 h-6 text-primary-400" />
-              <span className="text-xl font-bold text-white">TravelLog</span>
+              <Image
+                src="/images/logo.png"
+                alt="GlobNotes Logo"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+              <span className="text-xl font-bold text-white">GlobNotes</span>
             </div>
             <p className="text-gray-400 text-sm mb-4 max-w-md">
               Your personal travel companion. Document your adventures, preserve
@@ -37,7 +44,7 @@ export default function Footer() {
                 <Twitter className="w-5 h-5" />
               </a>
               <a
-                href="mailto:contact@travellog.com"
+                href="mailto:contact@globnotes.com"
                 className="text-gray-400 hover:text-primary-400 transition"
               >
                 <Mail className="w-5 h-5" />
